@@ -3,9 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 import '../node_modules/framework7/css/framework7.ios.css';
 import LoginScreen from '../node_modules/framework7/components/login-screen/login-screen';
+import VanillaInput from '../node_modules/framework7/components/input/input';
+import VanillaDialog from '../node_modules/framework7/components/dialog/dialog';
 import Framework7 from 'framework7';
-import Framework7React, { Block, Navbar, List, ListItem, Button, F7App, F7View, F7Page, F7LoginScreen } from 'framework7-react';
-Framework7.use([LoginScreen, Framework7React]);
+import Framework7React, { Block, Navbar, List, ListItem, Button, Label, Input, LoginScreenTitle, ListButton, BlockFooter, F7App, F7View, F7Page, F7LoginScreen } from 'framework7-react';
+Framework7.use([VanillaDialog, VanillaInput, LoginScreen, Framework7React]);
 
 class TestPage extends Component {
     constructor(props) {
@@ -38,11 +40,38 @@ class TestPage extends Component {
                 </Block>
                 <F7LoginScreen opened={this.state.loginScreenOpened} onLoginScreenClosed={() => {this.setState({loginScreenOpened : false})}}>
                     <F7Page loginScreen>
-                        <h1>Hello World</h1>
+                            <LoginScreenTitle>Framework7</LoginScreenTitle>
+                            <List form>
+                                <ListItem>
+                                    <Label>Username</Label>
+                                    <Input type="text" placeholder="Your username" onInput={(e) => {
+                                        this.setState({ username: e.target.value});
+                                    }}></Input>
+                                </ListItem>
+                                <ListItem>
+                                    <Label>Password</Label>
+                                    <Input type="password" placeholder="Your password" onInput={(e) => {
+                                        this.setState({ password: e.target.value});
+                                    }}></Input>
+                                </ListItem>
+                            </List>
+                            <List>
+                                <ListButton onClick={this.signIn.bind(this)}>Sign In</ListButton>
+                                <BlockFooter>Some text about login information.<br />Lorem ipsum dolor sit amet, consectetur adipiscing elit.</BlockFooter>
+                            </List>
                     </F7Page>
                 </F7LoginScreen>
             </F7Page>
         );
+    }
+
+    signIn() {
+        const self = this;
+        const app = self.$f7;
+
+        app.dialog.alert(`Username: ${self.state.username}<br>Password: ${self.state.password}`, () => {
+            app.loginScreen.close();
+        });
     }
 }
 
