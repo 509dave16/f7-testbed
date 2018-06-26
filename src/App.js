@@ -38,15 +38,10 @@ class App extends Component {
 
     render() {
         return (
-            <F7App react={React} params={{pushState: true, theme: 'auto', routes, id: 'io.framework7.sluicebox'}}>
-                <F7View animate={this.state.animate} pushState={true} url="/" main className="ios-edges"/>
+            <F7App params={{theme: 'auto', routes, id: 'io.framework7.sluicebox'}}>
+                <F7View animate={this.state.animate} pushState={true} pushStateSeparator="" pushStateRoot="http://localhost:3000" url="/" main className="ios-edges"/>
             </F7App>
         )
-    }
-
-    componentDidMount() {
-        this.$f7ready((f7) => {
-        })
     }
 }
 
